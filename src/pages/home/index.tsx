@@ -16,7 +16,7 @@ interface CoinProps {
   marketCapUsd: string;
   volumeUsd24Hr: string;
   explorer: string;
-  formatePrice?: string;
+  formatedPrice?: string;
   formatedMarket?: string;
   formatedVolume?: string;
 }
@@ -109,26 +109,38 @@ export function Home() {
               <tr className={styles.tr} key={item.id}>
                 <td className={styles.tdLabel} data-Label="Moeda">
                   <div className={styles.name}>
-                    <Link to={"/dateil"}>
+                    <img
+                      className={styles.logo}
+                      src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
+                      alt="Logo cripto"
+                    />
+                    <Link to={`/detail/${item.id}`}>
                       <span>{item.name}</span> | {item.symbol}
                     </Link>
                   </div>
                 </td>
 
                 <td className={styles.tdLabel} data-Label="Valor mercado">
-                  1T
+                  {item.formatedMarket}
                 </td>
 
                 <td className={styles.tdLabel} data-Label="Preço">
-                  8.00
+                  {item.formatedPrice}
                 </td>
 
                 <td className={styles.tdLabel} data-Label="Volume">
-                  2B
+                  {item.formatedVolume}
                 </td>
 
-                <td className={styles.tdProfit} data-Label="Mudança 24h">
-                  <span>1.20</span>
+                <td
+                  className={
+                    Number(item.changePercent24Hr) > 0
+                      ? styles.tdProfit
+                      : styles.tdLoss
+                  }
+                  data-Label="Mudança 24h"
+                >
+                  <span>{Number(item.changePercent24Hr).toFixed(2)}</span>
                 </td>
               </tr>
             ))}
